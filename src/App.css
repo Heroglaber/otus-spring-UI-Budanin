@@ -1,3 +1,38 @@
+p
+{
+    display: inline-block;
+    font-size: large;
+    margin-right: 5%;
+}
+
+input, label
+{
+    display: inline-block;
+    font-size: large;
+    margin-left: 5%;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+#submitButton {
+  display: inline-block;
+  margin-left: 10%;
+}
+
 .App {
   text-align: center;
 }
