@@ -96,7 +96,7 @@ class App extends React.Component {
                   <td><BookAuthors authors={book.authors}></BookAuthors></td>
                   <td><BookGenres genres={book.genres}></BookGenres></td>
                   <td>
-                    <button onClick={() => this.handleUpdateBookButton(book.id)}>Update book</button>
+                    <button onClick={() => this.handleUpdateBookButton(book)}>Update book</button>
                     <button onClick={() => {console.log('Comments page')}}>Watch comments</button>
                     <button onClick={() => this.handleDeleteButton(book.id)}>Delete book</button>
                   </td>
@@ -115,9 +115,9 @@ class App extends React.Component {
     );
   }
 
-  handleUpdateBookButton(bookId) {
+  handleUpdateBookButton(book) {
     ReactDOM.render(
-      <BookForm/>,
+      <BookForm book={book}/>,
       document.getElementById('root')
     );
   }

@@ -2,15 +2,11 @@ import React, { useState } from "react";
 import "./App.css";
 import {addBook, editBook} from './service';
 
-function BookForm() {
-    const id = null;
-    const [title, setTitle] = useState('initialTitleValue');
-    const [authors, setAuthors] = useState([
-        {id: null, name: ""},
-    ]);
-    const [genres, setGenres] = useState([
-        {id: null, name: ""},
-    ]);
+function BookForm({book}) {
+    const id = book.id;
+    const [title, setTitle] = useState(book.title);
+    const [authors, setAuthors] = useState(book.authors);
+    const [genres, setGenres] = useState(book.genres);
 
     const handleChangeAuthor = (index, event) => {
         let newAuthors = authors.slice();
