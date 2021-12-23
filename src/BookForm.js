@@ -3,10 +3,10 @@ import "./App.css";
 import {addBook, editBook} from './service';
 
 function BookForm({book}) {
-    const id = book.id;
-    const [title, setTitle] = useState(book.title);
-    const [authors, setAuthors] = useState(book.authors);
-    const [genres, setGenres] = useState(book.genres);
+    const id = book ? book.id : null;
+    const [title, setTitle] = useState(book ? book.title : "");
+    const [authors, setAuthors] = useState(book ? book.authors : [{id: null, name: ""}]);
+    const [genres, setGenres] = useState(book ? book.genres : [{id: null, name: ""}]);
 
     const handleChangeAuthor = (index, event) => {
         let newAuthors = authors.slice();
