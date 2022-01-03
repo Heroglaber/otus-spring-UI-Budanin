@@ -35,3 +35,33 @@ export function editBook(bookId, json) {
     });
     return promice;
 }
+
+export function getComments(bookId) {
+    const promice = axios.get("/book/" + bookId + "/comment")
+        .then(res => res.data);
+    return promice;
+}
+
+export function addComment(bookId, json) {
+    const promice = axios.post("/book/" + bookId + "/comment", json, {
+        headers: {
+            'Content-Type': 'application/json'
+          }
+    });
+    return promice;
+}
+
+export function editComment(bookId, commentId, json) {
+    const promice = axios.post("/book/" + bookId + "/comment/" + commentId, json, {
+        headers: {
+            'Content-Type': 'application/json'
+          }
+    });
+    return promice;
+}
+
+export function deleteComment(commentId) {
+    const promice = axios.delete("/comment/" + commentId)
+        .then(res => res.data);
+    return promice;
+}
