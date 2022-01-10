@@ -20,26 +20,25 @@ class CommentsForm extends React.Component {
       }
 
     componentDidMount() {
-        this.fetchComments();
+      this.fetchComments();
     }
 
     fetchComments() {
-        const promice = getComments(this.state.bookId);
-        promice.then(
-          (result) => {
-            this.setState({
-              isLoaded: true,
-              comments: result ? result : [],
-            });
-          },
-          (error) => {
-            this.setState({
-              isLoaded: true,
-              error: error
-            });
-          }
-        )
-        return this.state.comments;
+      return getComments(this.state.bookId)
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            comments: result ? result : [],
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error: error
+          });
+        }
+      )
     }
 
     render() {
@@ -100,7 +99,7 @@ class CommentsForm extends React.Component {
         }
     }
 
-    handleSubmit(message) {
+    async handleSubmit(message) {
         if(message === "")
            return;
 
@@ -112,22 +111,20 @@ class CommentsForm extends React.Component {
           });
 
         if(this.state.commentId != null) {
-          editComment(this.state.bookId, this.state.commentId, json)
-          .then (
-            this.setState({
-              comments: this.fetchComments(),
-              showForm: false,
-            })
-          )
+          await editComment(this.state.bookId, this.state.commentId, json);
+          await this.fetchComments();
+          this.setState({
+            isLoaded: true,
+            showForm: false,
+          });
         }
         else {
-          addComment(this.state.bookId, json)
-          .then (
-            this.setState({
-              comments: this.fetchComments(),
-              showForm: false,
-            })
-          )
+          await addComment(this.state.bookId, json);
+          await this.fetchComments();
+          this.setState({
+            isLoaded: true,
+            showForm: false,
+          });
         }
     };
 
