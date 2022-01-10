@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import ReactDOM from 'react-dom';
 import "./App.css";
 import {addBook, editBook} from './service';
+import App from "./App";
 
 function BookForm({book}) {
     const id = book ? book.id : null;
@@ -41,7 +43,7 @@ function BookForm({book}) {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault();
+        //event.preventDefault();
 
         var jsonData = {};
         jsonData["id"] = id;
@@ -72,6 +74,13 @@ function BookForm({book}) {
             throw error
           }
         )
+    }
+
+    const returnToLibrary = () => {
+        ReactDOM.render(
+          <App/>,
+          document.getElementById('root')
+        );
     }
 
     const updateBook = (bookId, json) => {
@@ -126,6 +135,9 @@ function BookForm({book}) {
                     <button id="submitButton" onClick={handleSubmit}>Submit</button>
                 </div>
             </form>
+            <br/>
+            <br/>
+            <button onClick={() => returnToLibrary()}>Return to library</button> 
         </div>
     );
 }
