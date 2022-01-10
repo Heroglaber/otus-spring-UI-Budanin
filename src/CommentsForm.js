@@ -84,7 +84,7 @@ class CommentsForm extends React.Component {
                       <td>{comment.message}</td>
                       <td>{comment.dateTime}</td>
                       <td>
-                        <button onClick={() => this.handleUpdateCommentButton(comment.id)}>Update comment</button>
+                        <button onClick={() => this.handleUpdateCommentButton(comment.id, comment.message)}>Update comment</button>
                         <button onClick={() => this.handleDeleteButton(comment.id)}>Delete comment</button>
                       </td>
                     </tr>
@@ -135,9 +135,10 @@ class CommentsForm extends React.Component {
       });
     }
 
-    handleUpdateCommentButton(commentId) {
+    handleUpdateCommentButton(commentId, message) {
       this.setState({
         commentId: commentId,
+        message: message,
         showForm: true,
       });
     }
