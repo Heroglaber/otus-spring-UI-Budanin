@@ -39,6 +39,7 @@ class CommentsForm extends React.Component {
             });
           }
         )
+        return this.state.comments;
     }
 
     render() {
@@ -52,8 +53,25 @@ class CommentsForm extends React.Component {
             <div>
             <table>
               <caption>
-                <p>Add new comment: </p>
-                {this.renderAddCommentForm()}
+                  {this.state.showForm ? 
+                  (
+                      <form>
+                        <label htmlFor="message">Message:</label><br/>
+                        <input type="text" id="message" name="message" 
+                            value={this.state.message}
+                            onChange={(event) => this.handleChangeMessage(event)}
+                        />
+                        <div>
+                            <button id="submitButton" type="button" onClick={() => this.handleSubmit(this.state.message)}>Submit</button>
+                        </div>
+                      </form>
+                  ) : (
+                      <div>
+                        <p>Add new comment: </p>
+                        <button onClick={() => this.handleAddCommentButton()}>Add comment</button>
+                      </div>
+                  )
+                  }
               </caption>
               <tbody>
                 <tr>
@@ -67,7 +85,7 @@ class CommentsForm extends React.Component {
                       <td>{comment.message}</td>
                       <td>{comment.dateTime}</td>
                       <td>
-                        <button onClick={() => this.handleUpdateCommentButton()}>Update comment</button>
+                        <button onClick={() => this.handleUpdateCommentButton(comment.id)}>Update comment</button>
                         <button onClick={() => this.handleDeleteButton(comment.id)}>Delete comment</button>
                       </td>
                     </tr>
@@ -82,31 +100,7 @@ class CommentsForm extends React.Component {
         }
     }
 
-    renderAddCommentForm() {
-        return (
-            <div>
-            {!this.state.showForm ?
-            (
-                <button onClick={() => this.showForm()}>Add comment</button>
-            ) 
-                :
-            (
-                <form>
-                    <label htmlFor="message">Message:</label><br/>
-                    <input type="text" id="message" name="message" 
-                        value={this.state.message}
-                        onChange={(event) => this.handleChangeMessage(event)}
-                    />
-                    <div>
-                        <button id="submitButton" type="button" onClick={() => this.handleSubmit(this.state.commentId, this.state.message)}>Submit</button>
-                    </div>
-                </form>
-            )}
-            </div>
-        )
-      };
-
-    handleSubmit(commentId, message) {
+    handleSubmit(message) {
         if(message === "")
            return;
 
@@ -117,16 +111,39 @@ class CommentsForm extends React.Component {
             if (value !== null) return value
           });
 
-        if(commentId === null) {
-            console.log(json);
-            addComment(this.state.bookId, json);
-            this.showForm();
-            this.fetchComments();
+        if(this.state.commentId != null) {
+          editComment(this.state.bookId, this.state.commentId, json)
+          .then (
+            this.setState({
+              comments: this.fetchComments(),
+              showForm: false,
+            })
+          )
         }
         else {
-            // updateComment(id, json);
+          addComment(this.state.bookId, json)
+          .then (
+            this.setState({
+              comments: this.fetchComments(),
+              showForm: false,
+            })
+          )
         }
     };
+
+    handleAddCommentButton() {
+      this.setState({
+        commentId: null,
+        showForm: true,
+      });
+    }
+
+    handleUpdateCommentButton(commentId) {
+      this.setState({
+        commentId: commentId,
+        showForm: true,
+      });
+    }
 
     handleDeleteButton(commentId) {
       deleteComment(commentId);
