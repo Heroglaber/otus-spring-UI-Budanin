@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './App.css';
 import {fetchBooks, deleteBook} from './service';
 import BookForm from './BookForm';
+import CommentsForm from './CommentsForm';
 
 function BookAuthors(props) {
   return (
@@ -97,7 +98,7 @@ class App extends React.Component {
                   <td><BookGenres genres={book.genres}></BookGenres></td>
                   <td>
                     <button onClick={() => this.handleUpdateBookButton(book)}>Update book</button>
-                    <button onClick={() => {console.log('Comments page')}}>Watch comments</button>
+                    <button onClick={() => this.handleCommentsButton(book)}>Watch comments</button>
                     <button onClick={() => this.handleDeleteButton(book.id)}>Delete book</button>
                   </td>
                 </tr>
@@ -137,6 +138,15 @@ class App extends React.Component {
         throw error
       }
     )
+  }
+
+  handleCommentsButton(book) {
+    ReactDOM.render(
+      <CommentsForm
+          book={book}
+      />,
+      document.getElementById('root')
+    );
   }
 
   findAndRemove(array, property, value) {
